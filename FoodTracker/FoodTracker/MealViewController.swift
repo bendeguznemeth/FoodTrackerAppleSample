@@ -22,6 +22,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
      */
     var meal: Meal?
     
+    // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+    var imagePickerController: UIImagePickerController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +41,14 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
         // Enable the Save button only if the text field has a valid Meal name.
         updateSaveButtonState()
+        
+        imagePickerController = UIImagePickerController()
+        
+        // Only allow photos to be picked, not taken.
+        imagePickerController?.sourceType = .photoLibrary
+        
+        // Make sure ViewController is notified when the user picks an image.
+        imagePickerController?.delegate = self
         
     }
     
@@ -115,15 +126,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         // Hide the keyboard.
         nameTextField.resignFirstResponder()
         
-        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        let imagePickerController = UIImagePickerController()
-        
-        // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .photoLibrary
-        
-        // Make sure ViewController is notified when the user picks an image.
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
+        if let pickerController = imagePickerController {
+            present(pickerController, animated: true, completion: nil)
+        }
         
     }
     
